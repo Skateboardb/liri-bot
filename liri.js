@@ -36,7 +36,7 @@ function spotifyLookup() {
 		{
 			type: 'track',
 			query: searchString,
-			limit: 10
+			limit: 5
 		},
 		(err, data) => {
 			if (err) {
