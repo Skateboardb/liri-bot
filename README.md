@@ -1,1 +1,1 @@
-![screenshot of liri bot](https://imgur.com/cHJOqhH)
+![screenshot of liri bot](./liri.png)
