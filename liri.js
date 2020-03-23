@@ -11,12 +11,13 @@ let searchString = process.argv.slice(3).join(' ');
 switch (api) {
 	case 'spotify':
 		console.log('Searching Spotify for ' + '"' + searchString + '"');
-		spotifyFunction();
+		spotifyLookup();
 
 		break;
 
 	case 'movie':
-		console.log('You have selected OMDB');
+		console.log('Searching OMDB for ' + '"' + searchString + '"');
+		movieLookup();
 
 		break;
 
@@ -30,7 +31,7 @@ switch (api) {
 		break;
 }
 
-function spotifyFunction() {
+function spotifyLookup() {
 	spotify.search(
 		{
 			type: 'track',
@@ -60,4 +61,59 @@ function spotifyFunction() {
 			}
 		}
 	);
+}
+
+function movieLookup() {
+	const queryUrl =
+		'http://www.omdbapi.com/?t=' +
+		searchString +
+		'&y=&plot=short&apikey=trilogy';
+
+	axios
+		.get(queryUrl)
+		.then(response => {
+			// console.log(response.data.Title);
+			// console.log(response.data.Year);
+			// console.log(response.data.Rated);
+			// console.log(response.data.Actors);
+			// console.log(response.data.Plot);
+			// console.log(response.data.Awards);
+
+			console.log(
+				'-----------------------------------' +
+					'\nTitle: ' +
+					response.data.Title +
+					'\nYear: ' +
+					response.data.Year +
+					'\nRated : ' +
+					response.data.Rated +
+					'\nStarring : ' +
+					response.data.Actors +
+					'\nPlot : ' +
+					response.data.Plot +
+					'\nAwards : ' +
+					response.data.Awards +
+					'\n-----------------------------------'
+			);
+		})
+		.catch(function(error) {
+			if (error.response) {
+				// The request was made and the server responded with a status code
+				// that falls out of the range of 2xx
+				console.log('---------------Data---------------');
+				console.log(error.response.data);
+				console.log('---------------Status---------------');
+				console.log(error.response.status);
+				console.log('---------------Status---------------');
+				console.log(error.response.headers);
+			} else if (error.request) {
+				// The request was made but no response was received
+				// `error.request` is an object that comes back with details pertaining to the error that occurred.
+				console.log(error.request);
+			} else {
+				// Something happened in setting up the request that triggered an Error
+				console.log('Error', error.message);
+			}
+			console.log(error.config);
+		});
 }
